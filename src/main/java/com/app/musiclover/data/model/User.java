@@ -27,4 +27,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    public void update(User userUpdates) {
+        username = userUpdates.getUsername();
+        email = userUpdates.getEmail();
+        password = userUpdates.getPassword();
+    }
 }
