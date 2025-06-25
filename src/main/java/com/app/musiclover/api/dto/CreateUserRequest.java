@@ -1,6 +1,7 @@
 package com.app.musiclover.api.dto;
 
 import com.app.musiclover.data.model.UserEntity;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -27,11 +28,14 @@ public class CreateUserRequest {
     @Size(max = 100, message = "Email must have a maximum of 100 characters.")
     private String email;
 
-//    @NotBlank(message = "Password cannot be null, empty or just spaces.")
-//    @Size(min = 12, max = 64, message = "Password must be between 12 and 64 characters long.")
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$",
-//            message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
+    @NotBlank(message = "Password cannot be null, empty or just spaces.")
+    @Size(min = 12, max = 64, message = "Password must be between 12 and 64 characters long.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$",
+            message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
     private String password;
+
+    @Valid
+    private CreateRoleRequest createRoleRequest;
 
     public UserEntity toUser() {
         UserEntity userEntity = new UserEntity();

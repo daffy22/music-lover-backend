@@ -2,7 +2,7 @@ package com.app.musiclover.api.resource;
 
 import com.app.musiclover.api.dto.AuthLoginRequest;
 import com.app.musiclover.api.dto.AuthResponse;
-import com.app.musiclover.api.dto.CreateAuthRequest;
+import com.app.musiclover.api.dto.CreateUserRequest;
 import com.app.musiclover.service.UserDetailsServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody CreateAuthRequest createAuthRequest) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody CreateUserRequest createAuthRequest) {
         return new ResponseEntity<>(userDetailsServiceImpl.registerUser(createAuthRequest), HttpStatus.CREATED);
     }
 }

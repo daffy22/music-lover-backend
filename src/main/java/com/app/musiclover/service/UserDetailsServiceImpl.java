@@ -2,7 +2,7 @@ package com.app.musiclover.service;
 
 import com.app.musiclover.api.dto.AuthLoginRequest;
 import com.app.musiclover.api.dto.AuthResponse;
-import com.app.musiclover.api.dto.CreateAuthRequest;
+import com.app.musiclover.api.dto.CreateUserRequest;
 import com.app.musiclover.data.dao.RoleDao;
 import com.app.musiclover.data.dao.UserDao;
 import com.app.musiclover.data.model.Role;
@@ -65,10 +65,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
                 authorityList);
     }
 
-    public AuthResponse registerUser(CreateAuthRequest createAuthRequest) {
-        String username = createAuthRequest.username();
-        String password = createAuthRequest.password();
-        List<String> rolesRequest = createAuthRequest.createRoleRequest().roleListName();
+    public AuthResponse registerUser(CreateUserRequest createUserRequest) {
+        String username = createUserRequest.getUsername();
+        String password = createUserRequest.getPassword();
+        List<String> rolesRequest = createUserRequest.getCreateRoleRequest().getRoleListName();
         Set<Role> roleSet = new HashSet<>(roleDao.findRolesByRoleEnumIn(rolesRequest));
 
         if (roleSet.isEmpty()) {
@@ -76,8 +76,9 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
         }
 
         UserEntity userEntity = UserEntity.builder()
-                .username(createAuthRequest.username())
-                .password(passwordEncoder.encode(createAuthRequest.password()))
+                .username(createUserRequest.getUsername())
+                .email(createUserRequest.getEmail())
+                .password(passwordEncoder.encode(createUserRequest.getPassword()))
                 .roleSet(roleSet)
                 .isEnabled(true)
                 .accountNoLocked(true)
