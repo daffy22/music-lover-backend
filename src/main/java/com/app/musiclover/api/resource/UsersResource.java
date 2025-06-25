@@ -2,7 +2,7 @@ package com.app.musiclover.api.resource;
 
 import com.app.musiclover.api.dto.CreateUserRequest;
 import com.app.musiclover.api.dto.UserResponse;
-import com.app.musiclover.data.model.User;
+import com.app.musiclover.data.model.UserEntity;
 import com.app.musiclover.domain.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -26,14 +26,14 @@ public class UsersResource {
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
-        User userCreated = userService.createUser(createUserRequest.toUser());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(userCreated));
+        UserEntity userEntityCreated = userService.createUser(createUserRequest.toUser());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(userEntityCreated));
     }
 
     @GetMapping(USER_ID)
     public ResponseEntity<UserResponse> getUserById(@PathVariable String userId) {
-        User userById = userService.getUserByID(userId);
-        return ResponseEntity.ok(new UserResponse(userById));
+        UserEntity userEntityById = userService.getUserByID(userId);
+        return ResponseEntity.ok(new UserResponse(userEntityById));
     }
 
     @GetMapping
@@ -47,8 +47,8 @@ public class UsersResource {
     @PutMapping(USER_ID)
     public ResponseEntity<UserResponse> updateUser(@PathVariable String userId,
                                                    @Valid @RequestBody CreateUserRequest updateUserRequest) {
-        User userUpdated = userService.updateUser(userId, updateUserRequest.toUser());
-        return ResponseEntity.ok(new UserResponse(userUpdated));
+        UserEntity userEntityUpdated = userService.updateUser(userId, updateUserRequest.toUser());
+        return ResponseEntity.ok(new UserResponse(userEntityUpdated));
     }
 
     @DeleteMapping(USER_ID)

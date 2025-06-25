@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false, length = 100)
     private String email;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(name = "is_enabled")
@@ -45,9 +45,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roleSet = new HashSet<>();
 
-    public void update(User userUpdates) {
-        username = userUpdates.getUsername();
-        email = userUpdates.getEmail();
-        password = userUpdates.getPassword();
+    public void update(UserEntity userEntityUpdates) {
+        username = userEntityUpdates.getUsername();
+        email = userEntityUpdates.getEmail();
+        password = userEntityUpdates.getPassword();
     }
 }

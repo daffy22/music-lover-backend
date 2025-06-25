@@ -1,6 +1,6 @@
 package com.app.musiclover.api.dto;
 
-import com.app.musiclover.data.model.User;
+import com.app.musiclover.data.model.UserEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -33,9 +33,9 @@ public class CreateUserRequest {
 //            message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
     private String password;
 
-    public User toUser() {
-        User user = new User();
-        BeanUtils.copyProperties(this, user);
-        return user;
+    public UserEntity toUser() {
+        UserEntity userEntity = new UserEntity();
+        BeanUtils.copyProperties(this, userEntity);
+        return userEntity;
     }
 }

@@ -3,7 +3,7 @@ package com.app.musiclover.data.dao;
 import com.app.musiclover.data.model.Permission;
 import com.app.musiclover.data.model.Role;
 import com.app.musiclover.data.model.RoleEnum;
-import com.app.musiclover.data.model.User;
+import com.app.musiclover.data.model.UserEntity;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
@@ -25,10 +25,10 @@ public class DatabaseStarting {
     public void initialize() {
         List<Role> rolesArrayList = createRoles();
         final int ADMIN_ROLE_INDEX = 0, USER_ROLE_INDEX = 1, INVITED_ROLE_INDEX = 2, DEVELOPER_ROLE_INDEX = 3;
-        User admin = User.builder()
+        UserEntity admin = UserEntity.builder()
                 .username("adminn")
                 .email("admin@email.com")
-                .password("1234")
+                .password("$2a$10$P6hO3Heo7rzOqKY7MMH/d.noX.huuKFLZyTruNzbJgwi7oxpzIPmi")
                 .isEnabled(true)
                 .accountNoExpired(true)
                 .accountNoLocked(true)
@@ -36,10 +36,10 @@ public class DatabaseStarting {
                 .roleSet(Set.of(rolesArrayList.get(ADMIN_ROLE_INDEX)))
                 .build();
         log.warn("------- Created Admin -----------");
-        User user = User.builder()
+        UserEntity userEntity = UserEntity.builder()
                 .username("userr")
                 .email("user@email.com")
-                .password("1234")
+                .password("$2a$10$P6hO3Heo7rzOqKY7MMH/d.noX.huuKFLZyTruNzbJgwi7oxpzIPmi")
                 .isEnabled(true)
                 .accountNoExpired(true)
                 .accountNoLocked(true)
@@ -47,10 +47,10 @@ public class DatabaseStarting {
                 .roleSet(Set.of(rolesArrayList.get(USER_ROLE_INDEX)))
                 .build();
         log.warn("------- Created USER -----------");
-        User invited = User.builder()
+        UserEntity invited = UserEntity.builder()
                 .username("invitedd")
                 .email("invited@email.com")
-                .password("1234")
+                .password("$2a$10$P6hO3Heo7rzOqKY7MMH/d.noX.huuKFLZyTruNzbJgwi7oxpzIPmi")
                 .isEnabled(true)
                 .accountNoExpired(true)
                 .accountNoLocked(true)
@@ -58,10 +58,10 @@ public class DatabaseStarting {
                 .roleSet(Set.of(rolesArrayList.get(INVITED_ROLE_INDEX)))
                 .build();
         log.warn("------- Created INVITED -----------");
-        User developer = User.builder()
+        UserEntity developer = UserEntity.builder()
                 .username("developerr")
                 .email("developer@email.com")
-                .password("1234")
+                .password("$2a$10$P6hO3Heo7rzOqKY7MMH/d.noX.huuKFLZyTruNzbJgwi7oxpzIPmi")
                 .isEnabled(true)
                 .accountNoExpired(true)
                 .accountNoLocked(true)
@@ -69,7 +69,7 @@ public class DatabaseStarting {
                 .roleSet(Set.of(rolesArrayList.get(DEVELOPER_ROLE_INDEX)))
                 .build();
         log.warn("------- Created DEVELOPER -----------");
-        userDao.saveAll(List.of(admin, user, invited, developer));
+        userDao.saveAll(List.of(admin, userEntity, invited, developer));
     }
 
     private List<Role> createRoles() {

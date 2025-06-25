@@ -1,17 +1,17 @@
 package com.app.musiclover.domain.service;
 
-import com.app.musiclover.data.model.User;
+import com.app.musiclover.data.model.UserEntity;
 
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
+    UserEntity createUser(UserEntity userEntity);
 
-    User getUserByID(String userId);
+    UserEntity getUserByID(String userId);
 
-    List<User> getAllUsers();
+    List<UserEntity> getAllUsers();
 
-    User updateUser(String userId, User userUpdates);
+    UserEntity updateUser(String userId, UserEntity userEntityUpdates);
 
     void deleteUser(String userId);
 }
