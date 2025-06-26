@@ -65,6 +65,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
                 authorityList);
     }
 
+    @Override
     public AuthResponse registerUser(CreateUserRequest createUserRequest) {
         String username = createUserRequest.getUsername();
         String password = createUserRequest.getPassword();
@@ -98,9 +99,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
         return new AuthResponse(userCreated.getUsername(), "User created successfully", accessToken, true);
     }
 
+    @Override
     public AuthResponse loginUser(AuthLoginRequest authLoginRequest) {
-        String username = authLoginRequest.username();
-        String password = authLoginRequest.password();
+        String username = authLoginRequest.getUsername();
+        String password = authLoginRequest.getPassword();
 
         Authentication authentication = authenticate(username, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);

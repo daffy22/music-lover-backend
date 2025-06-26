@@ -1,8 +1,14 @@
 package com.app.musiclover.api.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.*;
 
-@JsonPropertyOrder({"username", "message", "jwt", "status"})
-public record AuthResponse
-        (String username, String message, String jwt, boolean status) {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class AuthResponse {
+    private String username;
+    private String message;
+    private String jwt;
+    boolean status;
 }

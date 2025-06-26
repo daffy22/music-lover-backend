@@ -1,7 +1,21 @@
 package com.app.musiclover.api.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public record AuthLoginRequest
-        (@NotBlank String username, @NotBlank String password) {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class AuthLoginRequest {
+
+    @NotBlank(message = "Username cannot be null")
+    private String username;
+
+    @NotBlank(message = "Password cannot be null")
+    private String password;
+
 }

@@ -1,8 +1,5 @@
 package com.app.musiclover.data.model;
 
 public enum RoleEnum {
-    ADMIN,
-    USER,
-    INVITED,
-    DEVELOPER
+    ADMIN, USER, INVITED, DEVELOPER;
 }
