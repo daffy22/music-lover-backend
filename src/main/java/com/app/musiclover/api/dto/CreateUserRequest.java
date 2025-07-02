@@ -1,16 +1,18 @@
 package com.app.musiclover.api.dto;
 
-import com.app.musiclover.data.model.UserEntity;
+import com.app.musiclover.data.model.Role;
+import com.app.musiclover.data.model.User;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Objects;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -19,8 +21,7 @@ import org.springframework.beans.BeanUtils;
 public class CreateUserRequest {
 
     @NotBlank(message = "Username cannot be null, empty or just spaces.")
-    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters long.")
-    @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, digits, and underscores.")
+    @Size(max = 20, message = "Username must have a maximum of 20 characters.")
     private String username;
 
     @NotBlank(message = "Email cannot be null, empty or just spaces.")
@@ -34,12 +35,29 @@ public class CreateUserRequest {
             message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
     private String password;
 
-    @Valid
-    private CreateRoleRequest createRoleRequest;
+    @NotNull(message = "Role cannot be null.")
+    private Role role;
 
-    public UserEntity toUser() {
-        UserEntity userEntity = new UserEntity();
-        BeanUtils.copyProperties(this, userEntity);
-        return userEntity;
+    @NotNull(message = "Active cannot be null.")
+    private Boolean active;
+
+    public User toUser() {
+        doDefault();
+        User user = new User();
+        BeanUtils.copyProperties(this, user);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        return user;
+    }
+
+    private void doDefault() {
+        if (Objects.isNull(password)) {
+            password = UUID.randomUUID().toString();
+        }
+        if (Objects.isNull(role)) {
+            this.role = Role.USER;
+        }
+        if (Objects.isNull(active)) {
+            this.active = true;
+        }
     }
 }

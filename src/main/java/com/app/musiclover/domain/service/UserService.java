@@ -1,24 +1,21 @@
 package com.app.musiclover.domain.service;
 
-import com.app.musiclover.api.dto.AuthLoginRequest;
-import com.app.musiclover.api.dto.AuthResponse;
-import com.app.musiclover.api.dto.CreateUserRequest;
-import com.app.musiclover.data.model.UserEntity;
+import com.app.musiclover.data.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    UserEntity createUser(UserEntity userEntity);
+    String login(String email,  String password);
 
-    AuthResponse registerUser(CreateUserRequest createUserRequest);
+    User createUser(User user);
 
-    AuthResponse loginUser(AuthLoginRequest authLoginRequest);
+    String getUserIdFromUsername(String username);
 
-    UserEntity getUserByID(String userId);
+    User getUserByID(String userId);
 
-    List<UserEntity> getAllUsers();
+    List<User> getAllUsers();
 
-    UserEntity updateUser(String userId, UserEntity userEntityUpdates);
+    User updateUser(String userId, User userUpdates);
 
     void deleteUser(String userId);
 }

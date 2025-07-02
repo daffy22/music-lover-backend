@@ -1,6 +1,6 @@
 package com.app.musiclover.api.dto;
 
-import com.app.musiclover.data.model.UserEntity;
+import com.app.musiclover.data.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ public class UserResponse {
     private String username;
     private String email;
 
-    public UserResponse(UserEntity userEntity) {
-        BeanUtils.copyProperties(userEntity, this);
+    public UserResponse(User user) {
+        BeanUtils.copyProperties(user, this);
     }
 }
