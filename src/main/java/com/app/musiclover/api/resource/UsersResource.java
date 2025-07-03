@@ -7,7 +7,6 @@ import com.app.musiclover.api.dto.UserResponse;
 import com.app.musiclover.data.model.User;
 import com.app.musiclover.domain.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +34,10 @@ public class UsersResource {
         return new TokenDto(token);
     }
 
-
     @PostMapping(SIGN_UP)
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest createUserRequest) {
         return new UserResponse(userService.createUser(createUserRequest.toUser()));
     }
-
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(USER_ID)
@@ -58,7 +55,7 @@ public class UsersResource {
         return ResponseEntity.ok(userResponseList);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(USER_ID)
     public ResponseEntity<UserResponse> updateUser(@PathVariable String userId,
                                                    @Valid @RequestBody CreateUserRequest updateUserRequest) {
@@ -66,7 +63,7 @@ public class UsersResource {
         return ResponseEntity.ok(new UserResponse(userUpdated));
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(USER_ID)
     public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);

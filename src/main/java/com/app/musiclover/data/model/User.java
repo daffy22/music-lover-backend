@@ -40,10 +40,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "musical_piece_id")
     )
-    private List<MusicalPiece> favoritiesArrayList = new ArrayList<>();
+    private List<MusicalPiece> favoritesArrayList = new ArrayList<>();
+
+    private List<RecommendationHistory> recommendationHistoriesArrayList = new ArrayList<>();
 
     public void update(User userUpdates) {
-//        username = userUpdates.getUsername();
+        username = userUpdates.getUsername();
         email = userUpdates.getEmail();
         password = userUpdates.getPassword();
     }

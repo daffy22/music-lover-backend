@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,4 +38,8 @@ public class MusicalPiece {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "musical_piece_id")
     private Set<Mood> moodHashSet = new HashSet<>();
+
+    public void update(MusicalPiece musicalPieceRequest) {
+        BeanUtils.copyProperties(musicalPieceRequest, this);
+    }
 }

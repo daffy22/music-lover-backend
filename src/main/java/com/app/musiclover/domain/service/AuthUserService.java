@@ -1,5 +1,5 @@
 package com.app.musiclover.domain.service;
 
-public interface AuthenticatedUserService {
+public interface AuthUserService {
     String getUsername();
 }
