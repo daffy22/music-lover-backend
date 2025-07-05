@@ -32,6 +32,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean active;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -42,6 +43,8 @@ public class User {
     )
     private List<MusicalPiece> favoritesArrayList = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id")
     private List<RecommendationHistory> recommendationHistoriesArrayList = new ArrayList<>();
 
     public void update(User userUpdates) {

@@ -2,7 +2,6 @@ package com.app.musiclover.api.dto;
 
 import com.app.musiclover.data.model.Role;
 import com.app.musiclover.data.model.User;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

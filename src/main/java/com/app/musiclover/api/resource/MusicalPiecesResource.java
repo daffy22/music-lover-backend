@@ -34,7 +34,7 @@ public class MusicalPiecesResource {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping(MUSICAL_PIECE_ID)
-    public ResponseEntity<MusicalPieceResponse> getMusicalPiecesById(@PathVariable String musicalPieceId) {
+    public ResponseEntity<MusicalPieceResponse> getMusicalPiecesById(@PathVariable Long musicalPieceId) {
         MusicalPiece musicalPiece = musicalPieceService.getMusicalPieceById(musicalPieceId);
         return ResponseEntity.ok(new MusicalPieceResponse(musicalPiece));
     }
@@ -56,14 +56,14 @@ public class MusicalPiecesResource {
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(MUSICAL_PIECE_ID)
     public ResponseEntity<MusicalPieceResponse> updateMusicalPiece
-            (@PathVariable String musicalPieceId, @Valid @RequestBody CreateMusicalPieceRequest createMusicalPieceRequest) {
+            (@PathVariable Long musicalPieceId, @Valid @RequestBody CreateMusicalPieceRequest createMusicalPieceRequest) {
         MusicalPiece musicalPiece = musicalPieceService.updateMusicalPiece(musicalPieceId, createMusicalPieceRequest.toMusicalRequest());
         return ResponseEntity.ok(new MusicalPieceResponse(musicalPiece));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(MUSICAL_PIECE_ID)
-    public ResponseEntity<Void> deleteMusicalPieceById(@PathVariable String musicalPieceId) {
+    public ResponseEntity<Void> deleteMusicalPieceById(@PathVariable Long musicalPieceId) {
         musicalPieceService.deleteMusicalPieceById(musicalPieceId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -21,7 +21,7 @@ public class MusicalPieceServiceImpl implements MusicalPieceService {
     }
 
     @Override
-    public MusicalPiece getMusicalPieceById(String musicalPieceId) {
+    public MusicalPiece getMusicalPieceById(Long musicalPieceId) {
         return musicalPieceDao.findById(musicalPieceId)
                 .orElseThrow(() -> new NotFoundException("Musical piece id: " + musicalPieceId));
     }
@@ -32,14 +32,14 @@ public class MusicalPieceServiceImpl implements MusicalPieceService {
     }
 
     @Override
-    public MusicalPiece updateMusicalPiece(String musicalPieceId, MusicalPiece musicalPieceRequest) {
+    public MusicalPiece updateMusicalPiece(Long musicalPieceId, MusicalPiece musicalPieceRequest) {
         MusicalPiece musicalPiece = getMusicalPieceById(musicalPieceId);
         musicalPiece.update(musicalPieceRequest);
         return musicalPieceDao.save(musicalPiece);
     }
 
     @Override
-    public void deleteMusicalPieceById(String musicalPieceId) {
+    public void deleteMusicalPieceById(Long musicalPieceId) {
         if (!musicalPieceDao.existsById(musicalPieceId)) {
             throw new NotFoundException("Musical piece id: " + musicalPieceId);
         }

@@ -7,11 +7,11 @@ import java.util.List;
 public interface MusicalPieceService {
     MusicalPiece createMusicalPiece(MusicalPiece musicalRequest);
 
-    MusicalPiece getMusicalPieceById(String musicalPieceId);
+    MusicalPiece getMusicalPieceById(Long musicalPieceId);
 
     List<MusicalPiece> getMusicalPiecesByTitleAndComposerAndEra(String title, String composer, String era);
 
-    MusicalPiece updateMusicalPiece(String musicalPieceId, MusicalPiece musicalPieceRequest);
+    MusicalPiece updateMusicalPiece(Long musicalPieceId, MusicalPiece musicalPieceRequest);
 
-    void deleteMusicalPieceById(String musicalPieceId);
+    void deleteMusicalPieceById(Long musicalPieceId);
 }

@@ -5,6 +5,7 @@ import com.app.musiclover.data.model.User;
 import com.app.musiclover.domain.exception.ConflictException;
 import com.app.musiclover.domain.exception.NotFoundException;
 import com.app.musiclover.domain.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,19 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
-
     private final JwtServiceImpl jwtServiceImpl;
-
     private final PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserDao userDao, JwtServiceImpl jwtServiceImpl, PasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
-        this.jwtServiceImpl = jwtServiceImpl;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public String login(String email, String password) {

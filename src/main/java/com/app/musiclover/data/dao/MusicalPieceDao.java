@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MusicalPieceDao extends JpaRepository<MusicalPiece, String> {
+public interface MusicalPieceDao extends JpaRepository<MusicalPiece, Long> {
     @Query("""
     SELECT m FROM MusicalPiece m
     WHERE (:title IS NULL OR LOWER(m.title) LIKE LOWER(CONCAT('%', :title, '%')))
