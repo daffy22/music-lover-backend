@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,13 +21,14 @@ public class RecommendationHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Column(length = 100, nullable = false)
+    private String criteria;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "recommendation_history_musical_pieces",
             joinColumns = @JoinColumn(name = "recommendation_history_id"),
             inverseJoinColumns = @JoinColumn(name = "musical_piece_id")
     )
-    private List<MusicalPiece> musicalPieceArrayList = new ArrayList<>();
-
-    private String criteria;
+    private Set<MusicalPiece> musicalPieceHashSet = new HashSet<>();
 }

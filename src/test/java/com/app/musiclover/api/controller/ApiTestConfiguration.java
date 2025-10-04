@@ -1,4 +1,4 @@
-package com.app.musiclover.api.resource;
+package com.app.musiclover.api.controller;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;

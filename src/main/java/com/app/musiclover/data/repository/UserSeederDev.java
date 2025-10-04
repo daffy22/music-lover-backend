@@ -1,4 +1,4 @@
-package com.app.musiclover.data.dao;
+package com.app.musiclover.data.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Profile;
@@ -9,17 +9,17 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class UserSeederDev {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final DatabaseStarting databaseStarting;
 
-    public UserSeederDev(UserDao userDao, DatabaseStarting databaseStarting) {
-        this.userDao = userDao;
+    public UserSeederDev(UserRepository userRepository, DatabaseStarting databaseStarting) {
+        this.userRepository = userRepository;
         this.databaseStarting = databaseStarting;
         deleteAllAndInitializeAndSeedDataBase();
     }
 
     private void deleteAllAndInitializeAndSeedDataBase() {
-        userDao.deleteAll();
+        userRepository.deleteAll();
         databaseStarting.initialize();
     }
 }

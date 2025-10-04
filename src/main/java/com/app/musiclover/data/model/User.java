@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -29,27 +31,37 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean active;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-            name = "user_favorites",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "musical_piece_id")
-    )
-    private List<MusicalPiece> favoritesArrayList = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
     private List<RecommendationHistory> recommendationHistoriesArrayList = new ArrayList<>();
 
-    public void update(User userUpdates) {
-        username = userUpdates.getUsername();
-        email = userUpdates.getEmail();
-        password = userUpdates.getPassword();
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_favorite_musical_pieces",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "musical_piece_id")
+    )
+    private Set<MusicalPiece> favoriteMusicalPieces = new HashSet<>();
+
+    public void updateUsername(String newUserName) {
+        setUsername(newUserName);
+    }
+
+    public void addRecommendationHistory(RecommendationHistory recommendationHistory) {
+        recommendationHistoriesArrayList.add(recommendationHistory);
+    }
+
+    public void addFavorite(MusicalPiece musicalPiece) {
+        this.favoriteMusicalPieces.add(musicalPiece);
+    }
+
+    public void removeFavorite(MusicalPiece musicalPiece) {
+        this.favoriteMusicalPieces.remove(musicalPiece);
     }
 }

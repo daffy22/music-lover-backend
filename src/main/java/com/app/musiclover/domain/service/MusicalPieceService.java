@@ -1,15 +1,15 @@
 package com.app.musiclover.domain.service;
 
 import com.app.musiclover.data.model.MusicalPiece;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface MusicalPieceService {
     MusicalPiece createMusicalPiece(MusicalPiece musicalRequest);
 
     MusicalPiece getMusicalPieceById(Long musicalPieceId);
 
-    List<MusicalPiece> getMusicalPiecesByTitleAndComposerAndEra(String title, String composer, String era);
+    Page<MusicalPiece> getAllMusicalPiecesByEra(String era, Pageable pageable);
 
     MusicalPiece updateMusicalPiece(Long musicalPieceId, MusicalPiece musicalPieceRequest);
 

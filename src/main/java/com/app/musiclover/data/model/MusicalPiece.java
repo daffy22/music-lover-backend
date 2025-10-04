@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.BeanUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,24 +21,44 @@ public class MusicalPiece {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 50, nullable = false)
     private String title;
 
+    @Column(length = 30, nullable = false)
     private String composer;
 
+    @Column(length = 20, nullable = false)
     private String era;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String instrument;
 
+    @Column(nullable = false)
     private Integer duration;
 
+    @Column(nullable = false)
     private String url;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "musical_piece_id")
+    @Column(nullable = false)
+    private Integer votes = 0;
+
+    @Column
+    private String createdBy;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "musical_piece_moods",
+            joinColumns = @JoinColumn(name = "musical_piece_id"),
+            inverseJoinColumns = @JoinColumn(name = "mood_id")
+    )
     private Set<Mood> moodHashSet = new HashSet<>();
 
     public void update(MusicalPiece musicalPieceRequest) {
-        BeanUtils.copyProperties(musicalPieceRequest, this);
+        setTitle(musicalPieceRequest.getTitle());
+        setComposer(musicalPieceRequest.getComposer());
+        setEra(musicalPieceRequest.getEra());
+        setInstrument(musicalPieceRequest.getInstrument());
+        setDuration(musicalPieceRequest.getDuration());
+        setUrl(musicalPieceRequest.getUrl());
     }
 }

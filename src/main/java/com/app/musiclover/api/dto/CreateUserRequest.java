@@ -34,29 +34,11 @@ public class CreateUserRequest {
             message = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")
     private String password;
 
-    @NotNull(message = "Role cannot be null.")
-    private Role role;
-
-    @NotNull(message = "Active cannot be null.")
-    private Boolean active;
-
     public User toUser() {
-        doDefault();
         User user = new User();
-        BeanUtils.copyProperties(this, user);
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setPassword(password);
         return user;
-    }
-
-    private void doDefault() {
-        if (Objects.isNull(password)) {
-            password = UUID.randomUUID().toString();
-        }
-        if (Objects.isNull(role)) {
-            this.role = Role.USER;
-        }
-        if (Objects.isNull(active)) {
-            this.active = true;
-        }
     }
 }

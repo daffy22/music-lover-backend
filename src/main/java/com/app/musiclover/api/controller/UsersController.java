@@ -1,4 +1,4 @@
-package com.app.musiclover.api.resource;
+package com.app.musiclover.api.controller;
 
 import com.app.musiclover.api.dto.CreateUserRequest;
 import com.app.musiclover.api.dto.LoginUserRequest;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(UsersResource.USERS)
-public class UsersResource {
+@RequestMapping(UsersController.USERS)
+public class UsersController {
 
     private final UserService userService;
 
@@ -24,7 +24,7 @@ public class UsersResource {
     static final String SIGN_UP = "/sign-up";
     static final String USER_ID = "/{userId}";
 
-    public UsersResource(UserService userService) {
+    public UsersController(UserService userService) {
         this.userService = userService;
     }
 
@@ -56,10 +56,10 @@ public class UsersResource {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping(USER_ID)
-    public ResponseEntity<UserResponse> updateUser(@PathVariable String userId,
-                                                   @Valid @RequestBody CreateUserRequest updateUserRequest) {
-        User userUpdated = userService.updateUser(userId, updateUserRequest.toUser());
+    @PatchMapping(USER_ID)
+    public ResponseEntity<UserResponse> updateUserName(@PathVariable String userId,
+                                                   @Valid @RequestBody String newUserName) {
+        User userUpdated = userService.updateUsername(userId, newUserName);
         return ResponseEntity.ok(new UserResponse(userUpdated));
     }
 

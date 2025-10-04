@@ -18,7 +18,7 @@ import org.springframework.beans.BeanUtils;
 public class CreateMusicalPieceRequest {
 
     @NotBlank(message = "Title cannot be null, empty or just spaces.")
-    @Size(max = 100, message = "Title must have a maximum of 20 characters.")
+    @Size(max = 100, message = "Title must have a maximum of 100 characters.")
     private String title;
 
     @NotBlank(message = "Composer cannot be null, empty or just spaces.")

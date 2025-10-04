@@ -1,4 +1,4 @@
-package com.app.musiclover.api.resource;
+package com.app.musiclover.api.controller;
 
 import com.app.musiclover.api.dto.CreateMusicalPieceRequest;
 import com.app.musiclover.api.dto.MusicalPieceResponse;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @RestController
-@RequestMapping(MusicalPiecesResource.MUSICAL_PIECES)
-public class MusicalPiecesResource {
+@RequestMapping(MusicalPiecesController.MUSICAL_PIECES)
+@RequiredArgsConstructor
+public class MusicalPiecesController {
 
     static final String MUSICAL_PIECES = "/api/v1/musical-pieces";
     static final String MUSICAL_PIECE_ID = "/{musicalPieceId}";
@@ -56,8 +56,8 @@ public class MusicalPiecesResource {
     @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(MUSICAL_PIECE_ID)
     public ResponseEntity<MusicalPieceResponse> updateMusicalPiece
-            (@PathVariable Long musicalPieceId, @Valid @RequestBody CreateMusicalPieceRequest createMusicalPieceRequest) {
-        MusicalPiece musicalPiece = musicalPieceService.updateMusicalPiece(musicalPieceId, createMusicalPieceRequest.toMusicalRequest());
+            (@PathVariable Long musicalPieceId, @Valid @RequestBody CreateMusicalPieceRequest updateMusicalPieceRequest) {
+        MusicalPiece musicalPiece = musicalPieceService.updateMusicalPiece(musicalPieceId, updateMusicalPieceRequest.toMusicalRequest());
         return ResponseEntity.ok(new MusicalPieceResponse(musicalPiece));
     }
 

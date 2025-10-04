@@ -7,7 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name")
 @Entity
 @Table(name = "moods")
 public class Mood {
@@ -16,7 +15,10 @@ public class Mood {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 50, nullable = false)
     private String name;
 
+    public void update(Mood updateMoodRequest) {
+        setName(updateMoodRequest.getName());
+    }
 }

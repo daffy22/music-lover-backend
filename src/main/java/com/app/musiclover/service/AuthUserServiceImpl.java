@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthUserServiceImpl implements AuthUserService {
+
     @Override
     public String getUsername() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

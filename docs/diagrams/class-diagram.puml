@@ -1,0 +1,49 @@
+@startuml
+class User {
+  - id: long
+  - username: String
+  - email: String
+  - password: String
+}
+
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+class MusicalPiece {
+  - id: long
+  - title: String
+  - composer: String
+  - era: String
+  - instrument: String
+  - duration: int
+  - url: String
+  - createdBy: long
+  - createdAt: Date
+}
+
+class Mood {
+  - id: long
+  - name: String
+  - createdBy: long
+  - createdAt: Date
+}
+
+class RecomendationHistory {
+  - id: long
+  - criteria: String
+}
+
+' Relaciones principales
+User "1" --> "1" Role : has
+User "1" *--> "0..*" RecomendationHistory : owns
+User "1" o--> "0..*" MusicalPiece : favorites
+RecomendationHistory "0..*" o--> "0..*" MusicalPiece : references
+MusicalPiece "0..*" o--> "0..*" Mood : associated with
+
+' Auditoría (dependencia)
+MusicalPiece ..> User : <<created by>>
+Mood ..> User : <<created by>>
+@enduml
