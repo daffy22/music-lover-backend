@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query("SELECT u.favoriteMusicalPieces FROM User u WHERE u.username = :username")
     Set<MusicalPiece> findFavoritesByUsername(String username);
+
+    boolean existsByEmail(String email);
+    boolean existsByUsername(String username);
 }

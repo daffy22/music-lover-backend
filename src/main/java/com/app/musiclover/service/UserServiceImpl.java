@@ -5,9 +5,11 @@ import com.app.musiclover.data.model.Role;
 import com.app.musiclover.data.repository.MusicalPieceRepository;
 import com.app.musiclover.data.repository.UserRepository;
 import com.app.musiclover.data.model.User;
+import com.app.musiclover.domain.exception.BadRequestException;
 import com.app.musiclover.domain.exception.ConflictException;
 import com.app.musiclover.domain.exception.NotFoundException;
 import com.app.musiclover.domain.service.AuthUserService;
+import com.app.musiclover.domain.service.JwtService;
 import com.app.musiclover.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,8 +24,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    private static final String PASSWORD_REGEX =
+            "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$";
+
+    private static final String EMAIL_REGEX =
+            "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+
     private final UserRepository userRepository;
-    private final JwtServiceImpl jwtServiceImpl;
+    private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final MusicalPieceRepository musicalPieceRepository;
     private final AuthUserService authUserService;
@@ -40,30 +48,64 @@ public class UserServiceImpl implements UserService {
                             .password(user.getPassword())
                             .roles(user.getRole().name())
                             .build();
-                    return  jwtServiceImpl.createToken(userDetails);
+                    return  jwtService.createToken(userDetails);
                 })
                 .orElseThrow(() -> new BadCredentialsException("Invalid credentials"));
     }
 
     @Override
     public User createUser(User user) {
+        assertEmailIsValid(user.getEmail());
+        assertUsernameIsValid(user.getUsername());
+        assertPasswordIsValid(user.getPassword());
+
         assertNoExistByEmail(user.getEmail());
         assertNoExistByUsername(user.getUsername());
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(Role.USER);
         user.setActive(true);
         return userRepository.save(user);
     }
 
+    private void assertEmailIsValid(String email) {
+        if (email == null || !email.matches(EMAIL_REGEX)) {
+            throw new BadRequestException("Invalid email format");
+        }
+    }
+
+    private void assertUsernameIsValid(String username) {
+        if (username == null || username.length() < 3 || username.length() > 20) {
+            throw new BadRequestException("Username must be between 3 and 20 characters");
+        }
+    }
+
+    public void assertPasswordIsValid(String password) {
+        if (password == null || password.trim().isEmpty()) {
+            throw new BadRequestException("Password cannot be null, empty or just spaces.");
+        }
+
+        if (password.length() < 12 || password.length() > 64) {
+            throw new BadRequestException("Password must be between 12 and 64 characters long.");
+        }
+
+        if (!password.matches(PASSWORD_REGEX)) {
+            throw new BadRequestException(
+                    "Password must contain at least one uppercase letter, one lowercase letter, " +
+                            "one digit, and one special character."
+            );
+        }
+    }
+
     private void assertNoExistByEmail(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            throw new ConflictException("The email already exists: " + email);
+        if (userRepository.existsByEmail((email))) {
+            throw new ConflictException("The email is already registered");
         }
     }
 
     private void assertNoExistByUsername(String username) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new ConflictException("The username already exists: " + username);
+        if (userRepository.existsByUsername(username)) {
+            throw new ConflictException("The username is already taken");
         }
     }
 
@@ -80,6 +122,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUsername(String userId, String newUsername) {
+        assertUsernameIsValid(newUsername);
+        assertNoExistByUsername(newUsername);
+
         User userToUpdate = getUserByID(userId);
         userToUpdate.updateUsername(newUsername);
         return userRepository.save(userToUpdate);
