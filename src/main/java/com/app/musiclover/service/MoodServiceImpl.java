@@ -4,7 +4,6 @@ import com.app.musiclover.data.repository.MoodRepository;
 import com.app.musiclover.data.model.Mood;
 import com.app.musiclover.domain.exception.NotFoundException;
 import com.app.musiclover.domain.service.MoodService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

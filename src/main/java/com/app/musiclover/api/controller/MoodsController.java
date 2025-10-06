@@ -5,7 +5,6 @@ import com.app.musiclover.api.dto.MoodResponse;
 import com.app.musiclover.data.model.Mood;
 import com.app.musiclover.domain.service.MoodService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

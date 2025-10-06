@@ -1,6 +1,5 @@
 package com.app.musiclover.domain.service;
 
-import com.app.musiclover.api.dto.MusicalPieceResponse;
 import com.app.musiclover.data.model.MusicalPiece;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

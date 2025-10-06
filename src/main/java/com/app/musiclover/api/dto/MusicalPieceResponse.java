@@ -1,7 +1,6 @@
 package com.app.musiclover.api.dto;
 
 import com.app.musiclover.data.model.MusicalPiece;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
