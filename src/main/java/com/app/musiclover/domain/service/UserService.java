@@ -19,9 +19,9 @@ public interface UserService {
 
     void deleteUser(String userId);
 
-    void addFavorite(String username, Long musicalPieceId);
+    void addFavorite(Long musicalPieceId);
 
-    void deleteFavorite(String username, Long musicalPieceId);
+    void deleteFavorite(Long musicalPieceId);
 
-    Set<MusicalPiece> getAllFavoritesByUsername(String username);
+    Set<MusicalPiece> getAllFavoritesByUsername();
 }

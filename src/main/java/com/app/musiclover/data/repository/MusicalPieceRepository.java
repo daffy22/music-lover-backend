@@ -17,5 +17,16 @@ public interface MusicalPieceRepository extends JpaRepository<MusicalPiece, Long
     """)
     List<MusicalPiece> findByFilters(String era, String instrument, Integer duration);
 
-    Page<MusicalPiece> findAllByEra(String era, Pageable pageable);
+    @Query("""
+    SELECT m FROM MusicalPiece m
+    WHERE (:title IS NULL OR LOWER(m.title) LIKE LOWER(CONCAT('%', :title, '%')))
+      AND (:era IS NULL OR LOWER(m.era) LIKE LOWER(CONCAT('%', :era, '%')))
+      AND (:composer IS NULL OR LOWER(m.composer) LIKE LOWER(CONCAT('%', :composer, '%')))
+    """)
+    Page<MusicalPiece> findByFilters(
+            String title,
+            String era,
+            String composer,
+            Pageable pageable
+    );
 }

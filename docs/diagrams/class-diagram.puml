@@ -9,7 +9,7 @@ class User {
 enum Role {
   ADMIN
   USER
-  GUEST
+  INVITED
 }
 
 class MusicalPiece {

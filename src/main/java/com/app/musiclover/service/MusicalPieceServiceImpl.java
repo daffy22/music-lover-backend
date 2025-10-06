@@ -34,8 +34,13 @@ public class MusicalPieceServiceImpl implements MusicalPieceService {
     }
 
     @Override
-    public Page<MusicalPiece> getAllMusicalPiecesByEra(String era, Pageable pageable) {
-        return musicalPieceRepository.findAllByEra(era, pageable);
+    public Page<MusicalPiece> getAll(Pageable pageable) {
+        return musicalPieceRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<MusicalPiece> getMusicalPiecesByTitleEraAndComposer(String title, String era, String composer, Pageable pageable) {
+        return musicalPieceRepository.findByFilters(title, era, composer, pageable);
     }
 
     @Override

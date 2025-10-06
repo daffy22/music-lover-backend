@@ -6,6 +6,9 @@ import com.app.musiclover.data.model.MusicalPiece;
 import com.app.musiclover.domain.service.MusicalPieceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,18 +42,43 @@ public class MusicalPiecesController {
         return ResponseEntity.ok(new MusicalPieceResponse(musicalPiece));
     }
 
-    @GetMapping(SEARCH)
-    public ResponseEntity<List<MusicalPieceResponse>> searchMusicalPiecesByTitleAndComposerAndEra(
-            @RequestParam(required = false, defaultValue = "") String title,
-            @RequestParam(required = false, defaultValue = "") String composer,
-            @RequestParam(required = false, defaultValue = "") String era
-    ) {
-        List<MusicalPieceResponse> musicalPieceResponseList =
-                musicalPieceService.getMusicalPiecesByTitleAndComposerAndEra(title, composer, era)
+    @GetMapping
+    public ResponseEntity<Page<MusicalPieceResponse>> getAllMusicalPieces(Pageable pageable) {
+        Page<MusicalPiece> page = musicalPieceService.getAll(pageable);
+
+        List<MusicalPieceResponse> musicalPieceResponseList = page.getContent()
                 .stream()
                 .map(MusicalPieceResponse::new)
                 .toList();
-        return ResponseEntity.ok(musicalPieceResponseList);
+
+        Page<MusicalPieceResponse> responsePage = new PageImpl<>(
+                musicalPieceResponseList,
+                pageable,
+                page.getTotalElements()
+        );
+
+        return ResponseEntity.ok(responsePage);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(SEARCH)
+    public ResponseEntity<Page<MusicalPieceResponse>> searchMusicalPiecesByTitleAndComposerAndEra(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String era,
+            @RequestParam(required = false) String composer,
+            Pageable pageable
+    ) {
+        Page<MusicalPiece> page = musicalPieceService.getMusicalPiecesByTitleEraAndComposer(title, era, composer, pageable);
+        List<MusicalPieceResponse> musicalPieceResponseList = page.getContent()
+                .stream()
+                .map(MusicalPieceResponse::new)
+                .toList();
+        Page<MusicalPieceResponse> responsePage = new PageImpl<>(
+                musicalPieceResponseList,
+                pageable,
+                page.getTotalElements()
+        );
+        return ResponseEntity.ok(responsePage);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

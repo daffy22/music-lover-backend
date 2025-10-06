@@ -7,6 +7,7 @@ import com.app.musiclover.data.repository.UserRepository;
 import com.app.musiclover.data.model.User;
 import com.app.musiclover.domain.exception.ConflictException;
 import com.app.musiclover.domain.exception.NotFoundException;
+import com.app.musiclover.domain.service.AuthUserService;
 import com.app.musiclover.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final JwtServiceImpl jwtServiceImpl;
     private final PasswordEncoder passwordEncoder;
     private final MusicalPieceRepository musicalPieceRepository;
+    private final AuthUserService authUserService;
 
     @Override
     public String login(String email, String password) {
@@ -92,16 +94,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addFavorite(String username, Long musicalPieceId) {
-        User user = getUserByUsername(username);
+    public void addFavorite(Long musicalPieceId) {
+        User user = getUserByUsername(authUserService.getUsername());
         MusicalPiece musicalPiece = getMusicalPieceById(musicalPieceId);
         user.addFavorite(musicalPiece);
         userRepository.save(user);
     }
 
     @Override
-    public void deleteFavorite(String username, Long musicalPieceId) {
-        User user = getUserByUsername(username);
+    public void deleteFavorite(Long musicalPieceId) {
+        User user = getUserByUsername(authUserService.getUsername());
         MusicalPiece musicalPiece = getMusicalPieceById(musicalPieceId);
         user.removeFavorite(musicalPiece);
         userRepository.save(user);
@@ -118,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<MusicalPiece> getAllFavoritesByUsername(String username) {
-        return userRepository.findFavoritesByUsername(username);
+    public Set<MusicalPiece> getAllFavoritesByUsername() {
+        return userRepository.findFavoritesByUsername(authUserService.getUsername());
     }
 }
