@@ -30,6 +30,4 @@ El sistema se basa en una arquitectura multicapa:
 ---
 
 ## 🗃️ Diagrama de clases
-
-(Agrega aquí tu imagen del diagrama una vez creada)
 ![](docs/diagrams/diagram-class.png)
