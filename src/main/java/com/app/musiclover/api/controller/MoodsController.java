@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping(MoodsController.MOODS)
 public class MoodsController {
@@ -25,21 +26,18 @@ public class MoodsController {
         this.moodService = moodService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MoodResponse> createMood(@Valid @RequestBody CreateMoodRequest createMoodRequest) {
         Mood mood = moodService.createMood(createMoodRequest.toMood());
         return ResponseEntity.status(HttpStatus.CREATED).body(new MoodResponse(mood));
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping(MOOD_ID)
     public ResponseEntity<MoodResponse> getMoodById(@PathVariable Long moodId) {
         Mood mood = moodService.getMoodById(moodId);
         return ResponseEntity.ok(new MoodResponse(mood));
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public ResponseEntity<List<MoodResponse>> getAllMoods() {
         List<MoodResponse> moodResponseList = moodService.getAllMoods().stream()
@@ -48,14 +46,12 @@ public class MoodsController {
         return ResponseEntity.ok(moodResponseList);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(MOOD_ID)
     public ResponseEntity<MoodResponse> updateMoodById(@PathVariable Long moodId, @Valid @RequestBody CreateMoodRequest updateMoodRequest) {
         Mood mood = moodService.updateMoodById(moodId, updateMoodRequest.toMood());
         return ResponseEntity.ok(new MoodResponse(mood));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(MOOD_ID)
     public ResponseEntity<Void> deleteMoodById(@PathVariable Long moodId) {
         moodService.deleteMoodById(moodId);

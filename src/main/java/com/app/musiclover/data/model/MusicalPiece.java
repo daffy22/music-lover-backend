@@ -40,7 +40,7 @@ public class MusicalPiece {
     @Column(nullable = false)
     private Integer votes = 0;
 
-    @Column
+    @Column(name = "created_by")
     private String createdBy;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -58,5 +58,13 @@ public class MusicalPiece {
         setInstrument(musicalPieceRequest.getInstrument());
         setDuration(musicalPieceRequest.getDuration());
         setUrl(musicalPieceRequest.getUrl());
+    }
+
+    public void addMood(Mood mood) {
+        moodHashSet.add(mood);
+    }
+
+    public void removeMood(Mood mood) {
+        moodHashSet.remove(mood);
     }
 }

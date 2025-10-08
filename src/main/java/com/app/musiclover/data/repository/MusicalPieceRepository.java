@@ -1,5 +1,6 @@
 package com.app.musiclover.data.repository;
 
+import com.app.musiclover.data.model.Mood;
 import com.app.musiclover.data.model.MusicalPiece;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MusicalPieceRepository extends JpaRepository<MusicalPiece, Long> {
     @Query("""
@@ -29,4 +31,7 @@ public interface MusicalPieceRepository extends JpaRepository<MusicalPiece, Long
             String composer,
             Pageable pageable
     );
+
+    @Query("SELECT mp.moodHashSet FROM MusicalPiece mp WHERE mp.id = :musicalPieceId")
+    Set<Mood> findAllByMusicalPieceId(Long musicalPieceId);
 }

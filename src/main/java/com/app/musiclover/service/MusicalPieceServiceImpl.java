@@ -1,5 +1,7 @@
 package com.app.musiclover.service;
 
+import com.app.musiclover.data.model.Mood;
+import com.app.musiclover.data.repository.MoodRepository;
 import com.app.musiclover.data.repository.MusicalPieceRepository;
 import com.app.musiclover.data.model.MusicalPiece;
 import com.app.musiclover.domain.exception.NotFoundException;
@@ -9,15 +11,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class MusicalPieceServiceImpl implements MusicalPieceService {
 
     private final MusicalPieceRepository musicalPieceRepository;
     private final AuthUserService authUserService;
+    private final MoodRepository moodRepository;
 
-    public MusicalPieceServiceImpl(MusicalPieceRepository musicalPieceRepository, AuthUserService authUserService) {
+    public MusicalPieceServiceImpl(MusicalPieceRepository musicalPieceRepository, AuthUserService authUserService, MoodRepository moodRepository) {
         this.musicalPieceRepository = musicalPieceRepository;
         this.authUserService = authUserService;
+        this.moodRepository = moodRepository;
     }
 
     @Override
@@ -56,5 +62,28 @@ public class MusicalPieceServiceImpl implements MusicalPieceService {
             throw new NotFoundException("Musical piece id: " + musicalPieceId);
         }
         musicalPieceRepository.deleteById(musicalPieceId);
+    }
+
+    @Override
+    public void addMood(Long musicalPieceId, Long moodId) {
+        MusicalPiece musicalPiece = getMusicalPieceById(musicalPieceId);
+        Mood mood = moodRepository.findById(moodId)
+                .orElseThrow(() -> new NotFoundException("Mood id: " + moodId));
+        musicalPiece.addMood(mood);
+        musicalPieceRepository.save(musicalPiece);
+    }
+
+    @Override
+    public void deleteMood(Long musicalPieceId, Long moodId) {
+        MusicalPiece musicalPiece = getMusicalPieceById(musicalPieceId);
+        Mood mood = moodRepository.findById(moodId)
+                .orElseThrow(() -> new NotFoundException("Mood id: " + moodId));
+        musicalPiece.removeMood(mood);
+        musicalPieceRepository.save(musicalPiece);
+    }
+
+    @Override
+    public Set<Mood> getMoodsByMusicalPieceId(Long musicalPieceId) {
+        return musicalPieceRepository.findAllByMusicalPieceId(musicalPieceId);
     }
 }

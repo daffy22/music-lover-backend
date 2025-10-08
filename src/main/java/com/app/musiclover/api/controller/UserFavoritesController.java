@@ -17,6 +17,7 @@ public class UserFavoritesController {
 
     static final String USER_FAVORITES = "/api/v1/user-favorites";
     static final String FAVORITE_ID = "/{favoriteId}";
+
     private final UserService userService;
 
     public UserFavoritesController(UserService userService) {

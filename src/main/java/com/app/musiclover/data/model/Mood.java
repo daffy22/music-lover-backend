@@ -18,6 +18,9 @@ public class Mood {
     @Column(unique = true, length = 50, nullable = false)
     private String name;
 
+    @Column(name = "created_by")
+    private String createdBy;
+
     public void update(Mood updateMoodRequest) {
         setName(updateMoodRequest.getName());
     }
