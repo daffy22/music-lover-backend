@@ -16,6 +16,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -35,15 +36,15 @@ public class RecommendationHistoryServiceImpl implements RecommendationHistorySe
     public RecommendationHistory getByDefaultRecommendationHistories() {
         List<MusicalPiece> allMusicalPieces = musicalPieceRepository.findAll();
 
-        List<MusicalPiece> bestMusicalPieces = Stream.of(
+        Set<MusicalPiece> bestMusicalPieces = Stream.of(
                 getTopFiveByEra(allMusicalPieces, BAROQUE),
                 getTopFiveByEra(allMusicalPieces, CLASSICAL),
                 getTopFiveByEra(allMusicalPieces, ROMANTIC),
                 getTopFiveByEra(allMusicalPieces, IMPRESSIONIST)
-        ).flatMap(List::stream).toList();
+        ).flatMap(List::stream).collect(Collectors.toSet());;
 
         RecommendationHistory recommendationHistory = new RecommendationHistory();
-        recommendationHistory.setMusicalPieceHashSet(new HashSet<>(bestMusicalPieces));
+        recommendationHistory.setMusicalPieceHashSet(bestMusicalPieces);
         return recommendationHistory;
     }
 
