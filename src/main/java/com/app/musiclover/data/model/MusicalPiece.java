@@ -66,5 +66,6 @@ public class MusicalPiece {
 
     public void removeMood(Mood mood) {
         moodHashSet.remove(mood);
+
     }
 }
